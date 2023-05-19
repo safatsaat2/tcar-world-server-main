@@ -27,6 +27,16 @@ async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
+
+        const categoryData = client.db('tcar-world').collection('category-data')
+
+        // Category Data routes
+        app.get('/category-data', async(req, res)=>{
+            const cursor = categoryData.find()
+            const result = await cursor.toArray()
+            res.send(result)
+        })
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
