@@ -36,6 +36,12 @@ async function run() {
             const result = await cursor.toArray()
             res.send(result)
         })
+        app.post('/category-data', async(req,res)=>{
+            const toy = req.body;
+            console.log(toy)
+            const result = await categoryData.insertOne(toy);
+            res.send(result)
+        })
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
