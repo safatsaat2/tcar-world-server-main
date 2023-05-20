@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 
 const app = express()
@@ -31,12 +31,35 @@ async function run() {
         const categoryData = client.db('tcar-world').collection('category-data')
 
         // Category Data routes
-        app.get('/category-data', async(req, res)=>{
-            const cursor = categoryData.find()
+        app.get('/category-data', async (req, res) => {
+            const cursor = categoryData.find().limit(20)
             const result = await cursor.toArray()
             res.send(result)
         })
-        app.post('/category-data', async(req,res)=>{
+        app.get(`/category-data/:email`, async (req, res) => {
+            const email = req.params.email;
+            console.log(email)
+            const query = { sellerEmail: email }
+            const result = await categoryData.find(query).toArray()
+            res.send(result)
+        })
+        // app.get(`/category-data/:id`, async (req, res) => {
+        //     const id = req.params.id
+        //     console.log(id)
+        //     const query = { _id: new ObjectId(id) }
+        //     console.log(query)
+        //     const result = await categoryData.findOne(query)
+        //     res.send(result)
+        // })
+        app.get('/categoryData/:id', async(req, res)=>{
+            const id = req.params.id;
+            console.log('hey', id)
+            console.log('matha', id)
+            const filter ={_id: new ObjectId(id)}
+            const result = await categoryData.findOne(filter);
+            res.send(result);
+        })
+        app.post('/category-data', async (req, res) => {
             const toy = req.body;
             console.log(toy)
             const result = await categoryData.insertOne(toy);
