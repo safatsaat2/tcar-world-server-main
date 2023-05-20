@@ -43,27 +43,26 @@ async function run() {
             const result = await categoryData.find(query).toArray()
             res.send(result)
         })
-        // app.get(`/category-data/:id`, async (req, res) => {
-        //     const id = req.params.id
-        //     console.log(id)
-        //     const query = { _id: new ObjectId(id) }
-        //     console.log(query)
-        //     const result = await categoryData.findOne(query)
-        //     res.send(result)
-        // })
         app.get('/categoryData/:id', async(req, res)=>{
             const id = req.params.id;
-            console.log('hey', id)
-            console.log('matha', id)
             const filter ={_id: new ObjectId(id)}
             const result = await categoryData.findOne(filter);
             res.send(result);
         })
+        // 
         app.post('/category-data', async (req, res) => {
             const toy = req.body;
             console.log(toy)
             const result = await categoryData.insertOne(toy);
             res.send(result)
+        })
+
+        app.delete('/category-data/:id', async(req,res)=>{
+            const id = req.params.id;
+            const query =  {_id: new ObjectId(id)}
+            const result = await categoryData.deleteOne(query);
+            res.send(result)
+
         })
 
         // Send a ping to confirm a successful connection
