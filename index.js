@@ -26,11 +26,12 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+         client.connect();
 
         const categoryData = client.db('tcar-world').collection('category-data')
 
         // Category Data routes
+        // Get Operation
         app.get('/category-data', async (req, res) => {
             const cursor = categoryData.find().limit(20)
             const result = await cursor.toArray()
@@ -49,14 +50,14 @@ async function run() {
             const result = await categoryData.findOne(filter);
             res.send(result);
         })
-        // 
+        // Post operation
         app.post('/category-data', async (req, res) => {
             const toy = req.body;
             console.log(toy)
             const result = await categoryData.insertOne(toy);
             res.send(result)
         })
-
+        // Delete Operation
         app.delete('/category-data/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
@@ -64,6 +65,7 @@ async function run() {
             res.send(result)
 
         })
+        // Patch Operation
         app.patch('/category-data/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) }
