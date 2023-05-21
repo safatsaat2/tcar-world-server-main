@@ -43,9 +43,9 @@ async function run() {
             const result = await categoryData.find(query).toArray()
             res.send(result)
         })
-        app.get('/categoryData/:id', async(req, res)=>{
+        app.get('/categoryData/:id', async (req, res) => {
             const id = req.params.id;
-            const filter ={_id: new ObjectId(id)}
+            const filter = { _id: new ObjectId(id) }
             const result = await categoryData.findOne(filter);
             res.send(result);
         })
@@ -57,11 +57,24 @@ async function run() {
             res.send(result)
         })
 
-        app.delete('/category-data/:id', async(req,res)=>{
+        app.delete('/category-data/:id', async (req, res) => {
             const id = req.params.id;
-            const query =  {_id: new ObjectId(id)}
+            const query = { _id: new ObjectId(id) }
             const result = await categoryData.deleteOne(query);
             res.send(result)
+
+        })
+        app.patch('/category-data/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) }
+            const updatedToy = {
+                $set: {
+                    price: updatedToy.price,
+                    quantity: updatedToy.quantity,
+                    description: updatedToy.description
+                }
+            }
+            const filter = await categoryData.updateOne(filter, updatedToy)
 
         })
 
