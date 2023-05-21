@@ -33,7 +33,7 @@ async function run() {
         // Category Data routes
         // Get Operation
         app.get('/category-data', async (req, res) => {
-            const cursor = categoryData.find().limit(20)
+            const cursor = categoryData.find().limit(20).sort({"price": 1})
             const result = await cursor.toArray()
             res.send(result)
         })
