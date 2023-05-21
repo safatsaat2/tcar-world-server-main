@@ -67,14 +67,16 @@ async function run() {
         app.patch('/category-data/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) }
-            const updatedToy = {
+            const updatedToy = req.body;
+            const newInfo = {
                 $set: {
                     price: updatedToy.price,
                     quantity: updatedToy.quantity,
                     description: updatedToy.description
                 }
             }
-            const filter = await categoryData.updateOne(filter, updatedToy)
+            const result = await categoryData.updateOne(filter, newInfo)
+            res.send(result)
 
         })
 
